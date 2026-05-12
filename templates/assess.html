@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Assessment{% endblock %}
+
+{% block content %}
+<div class="page-hero small">
+  <div class="hero-inner">
+    <div>
+      <h1> Self-Assessment</h1>
+      <p>Answer honestly — our AI will create a personalized plan just for you.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container narrow">
+  <form method="POST" id="assessForm">
+    <div class="form-card">
+      <div class="form-section-title"> Rate Your Current State <small>(1 = Low, 5 = Very High)</small></div>
+
+      <div class="slider-group">
+        <label> Stress Level <span class="slider-val" id="v1">3</span></label>
+        <input type="range" name="stress_level" min="1" max="5" value="3" id="s1"
+               oninput="document.getElementById('v1').textContent=this.value"/>
+        <div class="slider-labels"><span>Low</span><span>Moderate</span><span>Very High</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label> Focus Loss <span class="slider-val" id="v2">3</span></label>
+        <input type="range" name="focus_loss" min="1" max="5" value="3" id="s2"
+               oninput="document.getElementById('v2').textContent=this.value"/>
+        <div class="slider-labels"><span>Sharp Focus</span><span>Moderate</span><span>Easily Lost</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label> Social Media Addiction <span class="slider-val" id="v3">3</span></label>
+        <input type="range" name="addiction_score" min="1" max="5" value="3" id="s3"
+               oninput="document.getElementById('v3').textContent=this.value"/>
+        <div class="slider-labels"><span>None</span><span>Moderate</span><span>High</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label> Interest in Recommendations <span class="slider-val" id="v4">3</span></label>
+        <input type="range" name="interest_score" min="1" max="5" value="3" id="s4"
+               oninput="document.getElementById('v4').textContent=this.value"/>
+        <div class="slider-labels"><span>Not at all</span><span>Somewhat</span><span>Very Much</span></div>
+      </div>
+
+      <div class="form-group mt-2">
+        <label> Daily Screen Time (hours)</label>
+        <input type="number" name="screen_time" min="0" max="24" step="0.5" value="4"
+               placeholder="e.g. 4.5" required class="input-med"/>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-section-title"> Tell Us About Your Challenges</div>
+      <div class="form-group">
+        <label>Describe your study problems <small>(optional but helps AI)</small></label>
+        <textarea name="problem_text" rows="4" placeholder="e.g. I feel stressed during exams, I get distracted by Instagram, I can't focus for more than 10 minutes..."></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-primary btn-full btn-lg" id="submitBtn">
+       Generate My Recommendations
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("assessForm").addEventListener("submit", function(){
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = " Analyzing...";
+  btn.disabled = true;
+});
+</script>
+{% endblock %}

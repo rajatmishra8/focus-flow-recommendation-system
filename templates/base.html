@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{% block title %}Focus-Flow{% endblock %} | Focus-Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+{% block head %}{% endblock %}
+</head>
+<body>
+{% if session.get('username') %}
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="{{ url_for('dashboard') }}" class="nav-brand">
+      <span class="brand-icon"></span> Focus-Flow
+    </a>
+    <div class="nav-links">
+      <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}">Dashboard</a>
+      <a href="{{ url_for('assess') }}"    class="nav-link {% if request.endpoint=='assess' %}active{% endif %}">Assess</a>
+      <a href="{{ url_for('tools') }}"     class="nav-link {% if request.endpoint=='tools' %}active{% endif %}">Tools</a>
+      <a href="{{ url_for('history') }}"   class="nav-link {% if request.endpoint=='history' %}active{% endif %}">History</a>
+      <a href="{{ url_for('about') }}"     class="nav-link {% if request.endpoint=='about' %}active{% endif %}">About</a>
+    </div>
+    <div class="nav-right">
+      <span class="user-pill"> {{ session['username'] }}</span>
+      <a href="{{ url_for('logout') }}" class="btn-sm btn-outline">Logout</a>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('assess') }}">Assess</a>
+  <a href="{{ url_for('tools') }}">Tools</a>
+  <a href="{{ url_for('history') }}">History</a>
+  <a href="{{ url_for('about') }}">About</a>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+{% endif %}
+
+<main class="main-content">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <p> Focus-Flow &nbsp;·&nbsp; Human-Centered Adaptive Recommendation System &nbsp;·&nbsp;</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

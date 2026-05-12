@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+
+{% block content %}
+<div class="page-hero small">
+  <div class="hero-inner">
+    <div>
+      <h1> Assessment History</h1>
+      <p>Track your progress over time.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  {% if assessments %}
+  <div class="history-list">
+    {% for a in assessments %}
+    <div class="history-card">
+      <div class="hc-left">
+        <span class="badge {% if a['prediction']=='Good Performance' %}badge-green{% else %}badge-orange{% endif %}">
+          {% if a['prediction']=='Good Performance' %}{% else %}{% endif %} {{ a['prediction'] }}
+        </span>
+        <div class="hc-rec">{{ a['recommendation'] }}</div>
+        {% if a['problem_text'] %}
+        <div class="hc-problem">"{{ a['problem_text'][:80] }}{% if a['problem_text']|length > 80 %}…{% endif %}"</div>
+        {% endif %}
+      </div>
+      <div class="hc-right">
+        <div class="hc-stats">
+          <span title="Stress"> {{ a['stress_level'] }}</span>
+          <span title="Focus"> {{ a['focus_loss'] }}</span>
+          <span title="Screen Time"> {{ a['screen_time'] }}h</span>
+        </div>
+        <div class="hc-date">{{ a['created_at'][:16] }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state large">
+    <span></span>
+    <h3>No assessments yet</h3>
+    <p>Take your first assessment to start tracking your progress.</p>
+    <a href="{{ url_for('assess') }}" class="btn-primary mt-2">Take Assessment</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

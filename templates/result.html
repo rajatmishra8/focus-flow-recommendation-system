@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Your Results{% endblock %}
+
+{% block content %}
+<div class="page-hero small {% if result.prediction == 'Good Performance' %}hero-green{% else %}hero-orange{% endif %}">
+  <div class="hero-inner">
+    <div>
+      <div class="prediction-badge">
+        {% if result.prediction == 'Good Performance' %}{% else %}{% endif %}
+        {{ result.prediction }}
+      </div>
+      <h1>{{ result.rec_icon }} {{ result.recommendation }}</h1>
+    </div>
+    <a href="{{ url_for('assess') }}" class="btn-outline-white">Re-assess</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="result-grid">
+    <!-- Personalized Plan -->
+    <div class="card span-2">
+      <div class="card-header"><h3> Your Personalized Action Plan</h3></div>
+      <div class="card-body">
+        <div class="plan-grid">
+          {% for item in result.plan %}
+          <div class="plan-item">
+            <span class="plan-icon">{{ item.icon }}</span>
+            <span>{{ item.text }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="card">
+      <div class="card-header"><h3> AI Insights</h3></div>
+      <div class="card-body">
+        <div class="insight-row"><span>Stress Level</span><div class="bar-wrap"><div class="bar" style="width:{{ result.explanation.stress_level * 20 }}%; background: #ef4444;"></div></div><span>{{ result.explanation.stress_level }}/5</span></div>
+        <div class="insight-row"><span>Focus Loss</span><div class="bar-wrap"><div class="bar" style="width:{{ result.explanation.focus_loss * 20 }}%; background: #f97316;"></div></div><span>{{ result.explanation.focus_loss }}/5</span></div>
+        <div class="insight-row"><span>Digital Addiction</span><div class="bar-wrap"><div class="bar" style="width:{{ result.explanation.addiction * 20 }}%; background: #8b5cf6;"></div></div><span>{{ result.explanation.addiction }}/5</span></div>
+        <div class="insight-row"><span>Productivity Score</span><div class="bar-wrap"><div class="bar" style="width:{{ [result.explanation.productivity * 10, 100]|min }}%; background: #10b981;"></div></div><span>{{ result.explanation.productivity }}</span></div>
+      </div>
+    </div>
+
+    <!-- NLP Analysis -->
+    <div class="card">
+      <div class="card-header"><h3>NLP Analysis</h3></div>
+      <div class="card-body">
+        <div class="nlp-box">
+          <div class="nlp-item">
+            <span class="nlp-label">Sentiment Score</span>
+            <span class="nlp-value {% if sentiment > 0.1 %}text-green{% elif sentiment < -0.1 %}text-red{% else %}text-yellow{% endif %}">
+              {{ sentiment }} {% if sentiment > 0.1 %}{% elif sentiment < -0.1 %}{% else %}{% endif %}
+            </span>
+          </div>
+          <div class="nlp-item">
+            <span class="nlp-label">Detected Topics</span>
+            <div class="tags">
+              {% if keywords %}
+                {% for kw in keywords %}
+                <span class="tag">{{ kw.replace('_',' ') }}</span>
+                {% endfor %}
+              {% else %}
+                <span class="tag muted">General analysis</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Section -->
+  <div class="card mt-4" id="feedbackSection">
+    <div class="card-header"><h3> How was this recommendation?</h3></div>
+    <div class="card-body">
+      <textarea id="feedbackText" rows="3" placeholder="Tell us what you think — Was this helpful? Too generic? Let us know!"></textarea>
+      <button class="btn-primary mt-2" onclick="submitFeedback()">Submit Feedback</button>
+      <div id="feedbackResult" class="alert mt-2" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="center-actions mt-4">
+    <a href="{{ url_for('dashboard') }}" class="btn-outline">← Dashboard</a>
+    <a href="{{ url_for('tools') }}#pomodoro" class="btn-primary">Start Pomodoro ⏱️</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const assessmentId = {{ assessment_id }};
+function submitFeedback() {
+  const text = document.getElementById("feedbackText").value.trim();
+  if (!text) return alert("Please write some feedback first.");
+  fetch("/feedback", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({text: text, assessment_id: assessmentId})
+  }).then(r => r.json()).then(data => {
+    const el = document.getElementById("feedbackResult");
+    el.style.display = "block";
+    el.className = "alert alert-success mt-2";
+    el.innerHTML = `Thanks for the feedback! Sentiment: <strong>${data.label}</strong>`;
+    document.getElementById("feedbackText").value = "";
+  });
+}
+</script>
+{% endblock %}

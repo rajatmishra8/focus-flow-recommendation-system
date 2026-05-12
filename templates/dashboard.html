@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Hey, {{ session['username'] }} 👋</h1>
+      <p>Here's your productivity overview. Ready to crush today?</p>
+    </div>
+    <a href="{{ url_for('assess') }}" class="btn-primary">New Assessment →</a>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Stats row -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue">📊</div>
+      <div class="stat-body">
+        <div class="stat-num">{{ total_ass }}</div>
+        <div class="stat-label">Assessments Taken</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">💬</div>
+      <div class="stat-body">
+        <div class="stat-num">{{ total_fb }}</div>
+        <div class="stat-label">Feedbacks Submitted</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">😊</div>
+      <div class="stat-body">
+        <div class="stat-num">
+          {% if avg_sentiment is not none %}
+            {% if avg_sentiment > 0.1 %}Positive
+            {% elif avg_sentiment < -0.1 %}Negative
+            {% else %}Neutral{% endif %}
+          {% else %}N/A{% endif %}
+        </div>
+        <div class="stat-label">Avg Feedback Sentiment</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">🔥</div>
+      <div class="stat-body">
+        <div class="stat-num">{{ total_ass if total_ass < 8 else "8+" }}</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col-grid">
+    <!-- Recent Assessments -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Recent Assessments</h3>
+        <a href="{{ url_for('history') }}" class="link-sm">View all →</a>
+      </div>
+      <div class="card-body">
+        {% if assessments %}
+          {% for a in assessments %}
+          <div class="list-item">
+            <div class="li-left">
+              <span class="badge {% if a['prediction']=='Good Performance' %}badge-green{% else %}badge-orange{% endif %}">
+                {{ a['prediction'] }}
+              </span>
+              <span class="li-text">{{ a['recommendation'][:50] }}…</span>
+            </div>
+            <span class="li-time">{{ a['created_at'][:10] }}</span>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <span></span>
+            <p>No assessments yet. <a href="{{ url_for('assess') }}">Take your first one!</a></p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Recent Feedback -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Feedback History</h3>
+      </div>
+      <div class="card-body">
+        {% if feedbacks %}
+          {% for f in feedbacks %}
+          <div class="list-item">
+            <div class="li-left">
+              <span class="sentiment-dot {% if f['sentiment'] > 0.1 %}green{% elif f['sentiment'] < -0.1 %}red{% else %}yellow{% endif %}"></span>
+              <span class="li-text">{{ f['feedback_text'][:60] }}{% if f['feedback_text']|length > 60 %}…{% endif %}</span>
+            </div>
+            <span class="li-time">{{ f['created_at'][:10] }}</span>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <span>💬</span>
+            <p>No feedback yet. Complete an assessment to give feedback.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="qa-grid">
+      <a href="{{ url_for('assess') }}" class="qa-card">
+        <span></span><strong>New Assessment</strong><p>Analyze your current state</p>
+      </a>
+      <a href="{{ url_for('tools') }}#pomodoro" class="qa-card">
+        <span></span><strong>Pomodoro Timer</strong><p>Start a focus session</p>
+      </a>
+      <a href="{{ url_for('tools') }}" class="qa-card">
+        <span></span><strong>Study Tools</strong><p>Tips & techniques</p>
+      </a>
+      <a href="{{ url_for('history') }}" class="qa-card">
+        <span></span><strong>My History</strong><p>Track your progress</p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

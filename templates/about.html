@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="hero-inner center-hero">
+    <span class="brand-icon-lg"></span>
+    <h1>What is Focus-Flow?</h1>
+    <p>A smarter way to study. Built by students, for students.</p>
+  </div>
+</div>
+
+<div class="container narrow">
+
+  <div class="about-section">
+    <div class="about-icon"></div>
+    <h2>The Problem We're Solving</h2>
+    <p>You open your phone to check one notification. Thirty minutes later, you're still scrolling. Sound familiar? Today's students are fighting a constant battle between their goals and their screens. Stress, distraction, and digital addiction are quietly destroying academic performance — and nobody is talking about it.</p>
+  </div>
+
+  <div class="about-section">
+    <div class="about-icon"></div>
+    <h2>What Focus-Flow Does</h2>
+    <p>Focus-Flow is your personal AI-powered study assistant. It asks you a few questions about how you're feeling, analyzes your patterns using machine learning and natural language processing, and gives you a clear, actionable plan to study smarter — not harder.</p>
+    <p>Think of it like a smart coach that learns from you over time and gives advice that actually fits <em>your</em> situation.</p>
+  </div>
+
+  <div class="feature-showcase">
+    <div class="fs-item">
+      <span></span>
+      <h4>Machine Learning</h4>
+      <p>Our AI model was trained on real student data to predict your performance and understand what's holding you back.</p>
+    </div>
+    <div class="fs-item">
+      <span></span>
+      <h4>NLP Understanding</h4>
+      <p>Describe your problems in plain English. Our system reads your words and understands if you're stressed, distracted, or burned out.</p>
+    </div>
+    <div class="fs-item">
+      <span></span>
+      <h4>Adaptive Learning</h4>
+      <p>Every piece of feedback you give improves future recommendations. The more you use it, the smarter it gets.</p>
+    </div>
+    <div class="fs-item">
+      <span></span>
+      <h4>Built-in Tools</h4>
+      <p>Integrated Pomodoro timer, focus tips, and study planning guides — everything you need in one place.</p>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <div class="about-icon"></div>
+    <h2>How It Helps You</h2>
+    <ul class="about-list">
+      <li>🟢 Tells you exactly <strong>what's blocking your focus</strong> — whether it's stress, screen time, or poor sleep</li>
+      <li>🟢 Gives you a <strong>step-by-step personal plan</strong> — not generic advice, but tailored to your situation</li>
+      <li>🟢 Tracks your progress over time so you can <strong>see yourself improving</strong></li>
+      <li>🟢 Explains <em>why</em> it makes each recommendation — no black boxes</li>
+      <li>🟢 Helps you <strong>build better habits</strong> around studying and screen use</li>
+    </ul>
+  </div>
+
+  <div class="about-section">
+    <div class="about-icon"></div>
+    <h2>The Science Behind It</h2>
+    <p>Focus-Flow is built on research in behavioral psychology, cognitive science, and educational technology. The Pomodoro Technique was developed by Francesco Cirillo and has been validated by countless productivity researchers. Our ML model uses a Random Forest classifier trained on behavioral surveys to identify patterns that predict academic performance.</p>
+    <p>TextBlob sentiment analysis processes your written feedback in real-time, allowing the system to detect emotional tone and continuously improve its recommendations.</p>
+  </div>
+
+  <div class="about-cta">
+    <h3>Ready to study smarter?</h3>
+    <p>Take your first assessment — it takes less than 2 minutes.</p>
+    <a href="{{ url_for('assess') }}" class="btn-primary btn-lg">Start My Assessment →</a>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Tools{% endblock %}
+
+{% block content %}
+<div class="page-hero small">
+  <div class="hero-inner">
+    <div>
+      <h1> Study Tools & Techniques</h1>
+      <p>Science-backed tools to help you focus, learn, and perform better.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Pomodoro Timer -->
+  <div class="card pomodoro-card" id="pomodoro">
+    <div class="card-header"><h3> Pomodoro Timer</h3></div>
+    <div class="card-body center-content">
+      <div class="pomo-mode-tabs">
+        <button class="pomo-tab active" onclick="setMode(25,5,this)">Pomodoro (25+5)</button>
+        <button class="pomo-tab" onclick="setMode(50,10,this)">Deep Work (50+10)</button>
+        <button class="pomo-tab" onclick="setMode(15,3,this)">Quick Sprint (15+3)</button>
+      </div>
+
+      <div class="pomo-ring">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          <circle cx="100" cy="100" r="88" fill="none" stroke="var(--surface-2)" stroke-width="10"/>
+          <circle id="progressRing" cx="100" cy="100" r="88" fill="none"
+                  stroke="var(--accent)" stroke-width="10"
+                  stroke-dasharray="553" stroke-dashoffset="0"
+                  stroke-linecap="round" transform="rotate(-90 100 100)"/>
+        </svg>
+        <div class="pomo-time-display">
+          <div id="timerDisplay" class="pomo-time">25:00</div>
+          <div id="timerPhase" class="pomo-phase">Focus </div>
+        </div>
+      </div>
+
+      <div class="pomo-session-counter">Session <span id="sessionNum">1</span> of 4</div>
+
+      <div class="pomo-controls">
+        <button class="pomo-btn" onclick="startTimer()" id="startBtn"> Start</button>
+        <button class="pomo-btn secondary" onclick="pauseTimer()" id="pauseBtn" disabled>⏸ Pause</button>
+        <button class="pomo-btn secondary" onclick="resetTimer()">↺ Reset</button>
+      </div>
+
+      <div class="pomo-task-box">
+        <input type="text" id="currentTask" placeholder=" What are you working on? (optional)"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Focus Tips -->
+  <div class="card mt-4">
+    <div class="card-header"><h3> Focus Tips</h3></div>
+    <div class="card-body">
+      <div class="tips-grid">
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Phone-Free Zones</h4>
+          <p>Put your phone in another room while studying. Out of sight means out of mind — research shows this boosts IQ-level task performance.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Background Sounds</h4>
+          <p>Instrumental music, brown noise, or rain sounds reduce mental fatigue. Avoid lyrics — they compete with verbal processing.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Stay Hydrated</h4>
+          <p>Even mild dehydration (1-2%) impairs concentration and short-term memory. Keep a water bottle on your desk.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Your Study Space</h4>
+          <p>A clean, well-lit, and organized workspace reduces cognitive load by up to 30%. Natural light is best.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Write It Down</h4>
+          <p>Before starting, write your top 3 goals for the session. This primes your brain and reduces task-switching.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon"></span>
+          <h4>Move Between Sessions</h4>
+          <p>A 5-min walk during breaks boosts creativity and alertness. Don't just scroll — move your body.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Study Planning Guide -->
+  <div class="card mt-4">
+    <div class="card-header"><h3> Study Planning Guide</h3></div>
+    <div class="card-body">
+      <div class="plan-steps">
+        <div class="ps-step">
+          <div class="ps-num">1</div>
+          <div class="ps-content">
+            <h4>Weekly Brain Dump</h4>
+            <p>Every Sunday, write down all tasks, deadlines, and goals. Getting them out of your head frees cognitive space.</p>
+          </div>
+        </div>
+        <div class="ps-step">
+          <div class="ps-num">2</div>
+          <div class="ps-content">
+            <h4>Time Block Your Calendar</h4>
+            <p>Assign specific subjects to specific time slots. Treat study blocks like appointments you can't miss.</p>
+          </div>
+        </div>
+        <div class="ps-step">
+          <div class="ps-num">3</div>
+          <div class="ps-content">
+            <h4>Apply the 2-Minute Rule</h4>
+            <p>If a task takes less than 2 minutes, do it immediately. This prevents the mental weight of a growing to-do list.</p>
+          </div>
+        </div>
+        <div class="ps-step">
+          <div class="ps-num">4</div>
+          <div class="ps-content">
+            <h4>Daily Review (5 mins)</h4>
+            <p>Before bed, check what you accomplished and adjust tomorrow's plan. Consistency over perfection.</p>
+          </div>
+        </div>
+        <div class="ps-step">
+          <div class="ps-num">5</div>
+          <div class="ps-content">
+            <h4>Use Spaced Repetition</h4>
+            <p>Review notes at increasing intervals (1 day, 3 days, 1 week). This dramatically improves long-term retention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pomodoro.js') }}"></script>
+{% endblock %}
